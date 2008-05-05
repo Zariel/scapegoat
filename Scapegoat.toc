@@ -1,0 +1,5 @@
+## Title: Scapegoat
+## Author: Haste, Zariel
+## Interface: 20400
+
+arena.lua
