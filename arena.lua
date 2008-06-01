@@ -141,15 +141,13 @@ local Slasher = function(s)
 
 		print(string.format("2v2: %d | 3v3: %d | 5v5: %d", v2, v3, points))
 	else
-		local i = 1
-		for k, val in ipairs(team_size) do
+		for i = 1, 3 do
 			if GetArenaTeam(i) then
 				local _, teamSize, teamRating, teamPlayed, _, _, _, playerPlayed = GetArenaTeam(i)
 				local points = getPoints(teamRating, teamSize)
 				local size = team_size[teamSize]
-				print(string.format("%s: %d", size, points))
+				print(string.format("%s: %d (%d)", size, points, teamRating))
 			end
-			i = i + 1
 		end
 	end
 end
