@@ -148,7 +148,7 @@ local Slasher = function(s)
 				local played = (teamPlayed >= 10 and (playerPlayed / teamPlayed) >= .3)
 				local points = getPoints(teamRating, teamSize)
 				local size = team_size[teamSize]
-				table.insert(t, i, {size = teamSize, rating = teamRating, ["points"] = points, "eligable" = played})
+				table.insert(t, i, {["size"] = teamSize, ["rating"] = teamRating, ["points"] = points, ["eligable"] = played})
 			end
 		end
 		table.sort(t, function(a, b)
@@ -160,7 +160,7 @@ local Slasher = function(s)
 			if eligable then
 				str = "%s: %d (%d)"
 			else
-				str =" %s: %d (%d) *"
+				str = "%s: %d (%d) *"
 			end
 			print(string.format(str, size, points, rating))
 		end
