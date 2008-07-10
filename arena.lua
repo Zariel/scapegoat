@@ -141,13 +141,22 @@ local Slasher = function(s)
 
 		print(string.format("2v2: %d | 3v3: %d | 5v5: %d", v2, v3, points))
 	else
+		local t = {}
 		for i = 1, 3 do
 			if GetArenaTeam(i) then
 				local _, teamSize, teamRating, teamPlayed, _, _, _, playerPlayed = GetArenaTeam(i)
 				local points = getPoints(teamRating, teamSize)
 				local size = team_size[teamSize]
-				print(string.format("%s: %d (%d)", size, points, teamRating))
+				table.insert(t, i, {size = teamSize, rating = teamRating, ["points"] = points})
+			--	print(string.format("%s: %d (%d)", size, points, teamRating))
 			end
+		end
+		table.sort(t, function(a, b)
+			return a.points > b.points
+		end)
+		for k, v in ipairs(t) do
+			local size, rating, points = v.size, v.rating, v.points
+			print(string.format("%s: %d (%d)", size, points, rating))
 		end
 	end
 end
