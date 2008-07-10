@@ -148,7 +148,6 @@ local Slasher = function(s)
 				local points = getPoints(teamRating, teamSize)
 				local size = team_size[teamSize]
 				table.insert(t, i, {size = teamSize, rating = teamRating, ["points"] = points})
-			--	print(string.format("%s: %d (%d)", size, points, teamRating))
 			end
 		end
 		table.sort(t, function(a, b)
