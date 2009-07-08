@@ -55,12 +55,12 @@ PVPFrameArenaPoints.SetText = dummy
 local points
 local getPoints = function(rating, size)
 	if(rating <= 1500) then
-		points = (.22 * rating) + 14
+		rating = 1500
+		--points = (.22 * rating) + 14
 
-		if(points < 0) then points = 0 end
-	else
-		points = (1511.26 / (1 + (1639.28*(2.71828^(-0.00412*rating)))))
+		--if(points < 0) then points = 0 end
 	end
+	points = (1511.26 / (1 + (1639.28*(2.71828^(-0.00412*rating)))))
 
 	if(size == 2) then
 		return math_floor(points * .76)
@@ -75,7 +75,7 @@ local fn, id, teamSize, teamRating, teamPlayed, playerPlayed, points, lframe, _
 local mikoreimu = function()
 	local ep = 0
 
-	for i=1,3 do
+	for i=1, 3 do
 		fn = "PVPTeam"..i
 		id = _G[fn]:GetID()
 
@@ -88,6 +88,7 @@ local mikoreimu = function()
 				lframe = _G[fn.."DataRatingLabel"]
 
 				rframe:SetWidth(65)
+
 				lframe:ClearAllPoints()
 				lframe:SetPoint("LEFT", _G[fn.."DataName"], "RIGHT", -30, 0)
 
@@ -96,8 +97,6 @@ local mikoreimu = function()
 			else
 				SetText(rframe, teamRating)
 			end
-		else
-			break
 		end
 	end
 
@@ -148,21 +147,18 @@ local Slasher = function(s)
 				local played = (teamPlayed >= 10 and (playerPlayed / teamPlayed) >= .3)
 				local points = getPoints(teamRating, teamSize)
 				local size = team_size[teamSize]
-				table.insert(t, i, {["size"] = teamSize, ["rating"] = teamRating, ["points"] = points, ["eligable"] = played})
+				table.insert(t, i, { teamSize, teamRating, points, played })
 			end
 		end
+
 		table.sort(t, function(a, b)
-			return a.points > b.points
+			return a[3] > b[3]
 		end)
+
 		for k, v in ipairs(t) do
-			local size, rating, points, eligable = v.size, v.rating, v.points, v.eligable
-			local str
-			if eligable then
-				str = "%s: %d (%d)"
-			else
-				str = "%s: %d (%d) *"
-			end
-			print(string.format(str, size, points, rating))
+			local size, rating, points, eligable = unpack(v)
+			local str = eligable and "%s: %d (%d)" or "%s: %d (%d) *"
+			print(string_format(str, size, points, rating))
 		end
 	end
 end
